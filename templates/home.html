@@ -1,18 +1,28 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <title>Paczuczusie</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">   
+        <script src="/static/js/year.js" defer></script>     
+      </head>
+     
 <body>
+    
+  <img src = "/static/logo.jpg">
+
     <header>
+      
+      <nav id = "menu">
+        <a href="/">Home</a> 
+        <a href="/sender/sign-up">Sign-in</a> 
+      </nav>
         <h1>PACZUSIE</h1>
-        <p>Karol Brzeziński</p>
-        <h5>Wspaniała firma mająca swoje korzenie w 2RP, dostarczy paczusię na cały kraj najszybciej spośród konkurentów!</h5>
+        <h5>Wspaniała firma mająca swoje korzenie w 2RP, dostarczy paczusię na cały kraj najszybciej spośród konkurentów!</h5>    
     </header>
-<nav>
-    <a href="/">Home</a> 
-    <a href="/sender/sign-up">Sign-in</a> 
-  </nav>
+
   <footer>
-    <p>Autor: Karol Brzeziński</p>
-    <p><a href="onet.pl">cos sie zmmieni</a></p>
+    &copy; <span id="year"></span>
+    <a href="https://github.com/brzezinskik/Paczusie">Git</a>
   </footer>
 </body>
 </html>
