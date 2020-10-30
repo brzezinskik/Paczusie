@@ -23,6 +23,7 @@ function validate_last_name(txt)
 function validate_login(txt)
 {
     let result = /^([a-z]{3,12})?$/.test(txt.value);
+    
     if(!result){
         txt.style.borderColor = "red";
         return false
@@ -31,9 +32,26 @@ function validate_login(txt)
     return true
 }
 
+
+async function getResults(txt) {
+
+
+    let response = await fetch('https://infinite-hamlet-29399.herokuapp.com/check/'+  txt.value)       
+    if (response.ok) {
+        let text = await response.text();
+        console.log(text)
+        if(text.includes("taken")){
+            console.log(text)
+            txt.style.borderColor = "red";
+        }
+      } else {
+        alert("HTTP-Error: " + response.status);
+      }
+
+}
 function validate_sex(txt)
 {
-    let result = /^([MK])?$/.test(txt.value);
+    let result = /^([MFmf])?$/.test(txt.value);
     if(!result){
         txt.style.borderColor = "red";
         return false
@@ -44,34 +62,26 @@ function validate_sex(txt)
 
 function validate_password(txt)
 {
-    let result = /^([a-z]{3,12})?$/.test(txt.value);
-    if(!result){
+    if(txt.value.length<8){
         txt.style.borderColor = "red";
         return false
     }
     txt.style.borderColor = "green";
     return true
 }
-
-function validate_password_repeat(txt)
-{
-    let result = /^({8,})?$/.test(txt.value);
-    if(password.value!=password2.value){
-        result = false
-    }
-    if(!result){
-        txt.style.borderColor = "red";
+function validate_password_confirm(txt1, txt2){
+    if(txt1.value!=txt2.value){
+        txt1.style.borderColor = "red";
         return false
     }
-    txt.style.borderColor = "green";
+    txt1.style.borderColor = "green";
     return true
 }
-
-
-function attach_events(){     
+ 
     const button = document.getElementById("button");
     const form = document.getElementById('formularz');
     let error
+    window.flag = true
     var firstName = document.getElementById("firstname")
     var lastName = document.getElementById("lastname")
     var login = document.getElementById("login")
@@ -81,7 +91,7 @@ function attach_events(){
     
     firstName.addEventListener("input", function(ev){
         validate_first_name(firstName)
-        alert("FIREFORX PLS")
+
     });
 
     lastName.addEventListener("input", function(ev){
@@ -90,61 +100,57 @@ function attach_events(){
 
     login.addEventListener("input", function(ev){
         validate_login(login)
+        getResults(login)
     });
 
     sex.addEventListener("input", function(ev){
         validate_sex(sex)
     });
+    
+    form.addEventListener("submit", ev => {    
 
-    password.addEventListener("input", function(ev){
-        validate_password(password)
-    });
-
-    password2.addEventListener("input", function(ev){
-        validate_password_repeat(password2)
-    });
-
-
-    form.addEventListener("submit", ev => {
-        ev.preventDefault()
-        alert("FIREFORX PLS")
+        ev.preventDefault()       
         error = false
+        removeMessage(firstName)
         if(!validate_first_name(firstName)){
-            createFieldError(firstName, "Imię musi składać się z co najmniej 2 liter i zaczynać od dużej litery")
+            showMessage(firstName, "Imię musi składać się z co najmniej 3 liter i zaczynać od dużej litery")
             error = true
         }
+        removeMessage(lastName)
         if(!validate_last_name(lastName)){
-            createFieldError(lastName, "Nazwisko musi składać się z co najmniej 2 liter i zaczynać od dużej litery")
+            showMessage(lastName, "Nazwisko musi składać się z co najmniej 3 liter i zaczynać od dużej litery")
             error = true
         }
+        removeMessage(login)
         if(!validate_login(login)){
-            createFieldError(login, "Login musi składać się z 3 do 12 liter i samych małych liter")
+            showMessage(login, "Login musi składać się z 3 do 12 liter i samych małych liter")
+            error = true
+        } else if(login.style.borderColor == "red"){
+            showMessage(login, "Login jest zajęty")
             error = true
         }
-
+        removeMessage(sex)
         if(!validate_sex(sex)){
-            createFieldError(sex, "Płeć musi być uzupełniona jako M lub K")
+            showMessage(sex, "Płeć musi być uzupełniona jako M lub K")
             error = true
         }
-
+        removeMessage(password)
         if(!validate_password(password)){
-            createFieldError(password, "Hasło musi składać się z conajmniej 8 liter")
+            showMessage(password, "Hasło musi mieć minimum 8 znaków")
             error = true
         }
-
-        if(!validate_password_repeat(password2)){
-            createFieldError(password2, "Hasło musi składać się z conajmniej 8 liter i być takie same")
+        removeMessage(password2)
+        if(!validate_password_confirm(password2, password)){
+            showMessage(password2, "Hasła muszą być identyczne")
             error = true
         }
-        
         if(!error){
             ev.target.submit();
-        }
+        }        
     });
-}
 
-function createFieldError(field, text) {
-    removeFieldError(field);
+function showMessage(field, text) {
+    removeMessage(field);
     const div = document.createElement("div");
     div.classList.add("form-error-text");
     div.innerText = text;
@@ -157,7 +163,7 @@ function createFieldError(field, text) {
     }
 }
 
-function removeFieldError(field) {
+function removeMessage(field) {
     const errorText = field.nextElementSibling;
     if (errorText !== null) {
         if (errorText.classList.contains("form-error-text")) {
@@ -165,4 +171,3 @@ function removeFieldError(field) {
         }
     }
 }
-attach_events()

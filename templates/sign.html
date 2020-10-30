@@ -2,33 +2,55 @@
 <html>
   
     <head>
-      <title>Paczusie-logowanie</title>
+      <title>Paczusie - rejestracja</title>
       <link rel="stylesheet" href="{{ url_for('static', filename='css/sign.css') }}">
       <script src="/static/js/script.js" defer></script>
     </head>
 <body>
-
-  <nav>
+  <div class="navbar">
     <a href="/">Home</a> 
-    <a href="/sender/sign-up">Sign-in</a> 
-  </nav>
-  <div id="error"></div>
-  <form action="/" method="POST" id="formularz" enctype="multipart/form-data">
+      <a href="/sender/sign-up">Sign-in</a> 
+  </div>
+
+  <div class="container">
+    <div class="header">
+  <h2> Załóż nowe konto </h2>
+</div>  
+  <form action="https://infinite-hamlet-29399.herokuapp.com/sender/register" method="POST" id="formularz" enctype="multipart/form-data">
     <ul>
-      <li> <input type="text" name="firstname" placeholder="Imię" id="firstname" required > </li>
-      <li> <input type="text" name="lastname" placeholder="Nazwisko" id="lastname" required></li>
-      <li> <input type="text" name="login" placeholder="Login" id="login" required></li>
-      <li> <input type="text" name="sex" placeholder="Płeć" id="sex" required></li>
-      <li> <input type="password" name="password" placeholder="Hasło" id="password" required></li>
-      <li> <input type="password" name="password2" placeholder="Powtórz hasło" id="password2" required></li>
-      <li> <input type="file" name="photo" accept="image/png, image/jpg"> </li>    
-      <li><input type="submit" value="Submit" id="button"></li>
+      <div class="pole">
+      <label for="firstname">Imię</label>
+      <input type="text" name="firstname"  id="firstname" required > 
+    </div>
+      <label for="firstname">Nazwisko</label>
+      <div class="pole">
+      <input type="text" name="lastname"  id="lastname" required>
+    </div>
+    <label for="firstname">Login</label>
+    <div class="pole">
+       <input type="text" name="login"  id="login" required>
+    </div>
+    <label for="firstname">Płeć</label>
+      <div class="pole">
+       <input type="text" name="sex"  id="sex" required>
+    </div>
+    <label for="firstname">Hasło</label>
+      <div class="pole">
+       <input type="password" name="password" id="password" required>
+    </div>
+    <label for="firstname">Powtórz hasło</label>
+      <div class="pole">
+       <input type="password" name="password2"id="password2" required>
+    </div>
+    <label for="firstname">Zdjęcie</label>
+      <div class="pole">
+       <input type="file" name="photo" accept="image/png, image/jpg">
+    </div>  
+      <div class="pole">
+      <input type="submit" value="Submit" id="button">
+    </div>
     </ul>
   </form>
-
-  <footer>
-    <p>Autor: Karol Brzeziński</p>
-    <p><a href="https://github.com/brzezinskik/Paczusie">Git</a></p>
-  </footer>
+</div>
 </body>
 </html>
