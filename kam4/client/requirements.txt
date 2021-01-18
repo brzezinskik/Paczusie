@@ -1,0 +1,11 @@
+Flask
+Flask-Session
+gunicorn
+python-dotenv
+redis
+bcrypt
+PyJWT==1.7.1
+flask_hal
+requests
+authlib>=0.14.1
+six
